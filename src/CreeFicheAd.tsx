@@ -500,10 +500,32 @@ export const CreeFicheAd: React.FC = () => {
 
       {/* SCÈNE 1 — [0:00–0:04] */}
       {frame >= fps * 0 && frame < fps * 4 && (
-        <SlideText from={fps * 0} duration={fps * 4} bg="rgba(0,0,0,0.3)" backdropBlur="5px">
-          Vous avez une idée innovante ? <br />
-          Voici comment la rendre concrète.
-        </SlideText>
+        <AbsoluteFill style={{ zIndex: 10 }}>
+          <SlideText from={fps * 0} duration={fps * 4} bg="rgba(0,0,0,0.3)" backdropBlur="5px">
+            Vous avez une idée innovante ? <br />
+            Voici comment la rendre concrète.
+          </SlideText>
+        </AbsoluteFill>
+      )}
+
+      {/* SCÈNE 2 — [0:04–0:10] */}
+      {frame >= fps * 4 && frame < fps * 10 && (
+        <>
+          <AbsoluteFill style={{ zIndex: 5 }}>
+            <VideoCapture
+              from={fps * 4}
+              duration={fps * 6}
+              videoSrc="cree_une_fiche.mp4"
+              startFrom={0}
+            />
+          </AbsoluteFill>
+
+          <AbsoluteFill style={{ zIndex: 10 }}>
+            <SlideText from={fps * 4} duration={fps * 6} bg="rgba(0,0,0,0.3)" backdropBlur="5px">
+              Sur StartBridge, vous commencez par une fiche projet guidée.
+            </SlideText>
+          </AbsoluteFill>
+        </>
       )}
 
       {/* SCÈNE 2 — [0:04–0:10] */}
@@ -620,7 +642,7 @@ export const CreeFicheAd: React.FC = () => {
       <Audio
         src={staticFile('bg-music.mp3')}
         startFrom={0}
-        endAt={fps * 40}
+        endAt={fps * 43}
         volume={(f) =>
           interpolate(
             f,

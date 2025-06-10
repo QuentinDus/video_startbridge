@@ -48,7 +48,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="CreeFicheAd"
         component={CreeFicheAd}
-        durationInFrames={1200}
+        durationInFrames={1290}
         fps={30}
         width={1080}
         height={1920}
