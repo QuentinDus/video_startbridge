@@ -353,6 +353,63 @@ const ScreenCapture: React.FC<{
   );
 };
 
+// Capture vidéo avec zoom
+const VideoCapture: React.FC<{
+  from: number;
+  duration: number;
+  videoSrc: string;
+  startFrom?: number;
+}> = ({ from, duration, videoSrc, startFrom = 0 }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const localFrame = frame - from;
+  const isActive = localFrame >= 0 && localFrame <= duration;
+
+  const progress = isActive
+    ? spring({
+        fps,
+        frame: localFrame,
+        config: { damping: 100, mass: 1 },
+      })
+    : 0;
+
+  const scale = interpolate(progress, [0, 1], [0.95, 1]);
+  const opacity = interpolate(progress, [0, 0.3], [0, 1]);
+
+  if (!isActive) {
+    return null;
+  }
+
+  return (
+    <AbsoluteFill
+      style={{
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div
+        style={{
+          width: '90%',
+          height: '80%',
+          overflow: 'hidden',
+          borderRadius: 10,
+          boxShadow: '0 5px 25px rgba(0,0,0,0.2)',
+          transform: `scale(${scale})`,
+          opacity: opacity,
+        }}
+      >
+        <Video
+          src={staticFile(videoSrc)}
+          startFrom={startFrom}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 // Composant pour le défilement d'images (livre blanc)
 const MethodScroll: React.FC<{
   from: number;
@@ -447,6 +504,26 @@ export const CreeFicheAd: React.FC = () => {
           Vous avez une idée innovante ? <br />
           Voici comment la rendre concrète.
         </SlideText>
+      )}
+
+      {/* SCÈNE 2 — [0:04–0:10] */}
+      {frame >= fps * 4 && frame < fps * 10 && (
+        <>
+          <AbsoluteFill style={{ zIndex: 5 }}>
+            <VideoCapture
+              from={fps * 4}
+              duration={fps * 6}
+              videoSrc="cree_une_fiche.mp4"
+              startFrom={0}
+            />
+          </AbsoluteFill>
+
+          <AbsoluteFill style={{ zIndex: 10 }}>
+            <SlideText from={fps * 4} duration={fps * 6} bg="rgba(0,0,0,0.3)" backdropBlur="5px">
+              Sur StartBridge, vous commencez par une fiche projet guidée.
+            </SlideText>
+          </AbsoluteFill>
+        </>
       )}
 
       {/* SCÈNE 3 — [0:10–0:18] */}
