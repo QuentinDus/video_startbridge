@@ -532,10 +532,10 @@ export const CreeFicheAd: React.FC = () => {
         </>
       )}
 
-      {/* SCÈNE 7 — [0:36–0:43] */}
-      {frame >= fps * 36 && frame < fps * 43 && (
+      {/* SCÈNE 7 — [0:36–0:40] */}
+      {frame >= fps * 36 && frame < fps * 40 && (
         <AbsoluteFill style={{ zIndex: 5 }}>
-          <AnimatedCTAButton from={fps * 36} duration={fps * 7} />
+          <AnimatedCTAButton from={fps * 36} duration={fps * 4} />
         </AbsoluteFill>
       )}
 
